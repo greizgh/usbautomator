@@ -5,3 +5,4 @@ authors = ["Greizgh <greizgh@ephax.org>"]
 
 [dependencies]
 libudev = "0.2.0"
+notify-rust = "3.4.2"
