@@ -4,7 +4,10 @@ extern crate notify_rust;
 use libudev::{Context, Device, Enumerator, EventType, Monitor};
 use notify_rust::Notification;
 use std::process::Command;
+use std::thread::sleep;
+use std::time::Duration;
 
+const SLEEP_DURATION: u64 = 1000;
 /// USB Vendor/Product as defined in QMK firmware
 const PRODUCT: &str = "3/feed/1307/111";
 
@@ -36,7 +39,7 @@ fn main() {
                     }
                 }
             }
-            None => {}
+            None => sleep(Duration::from_millis(SLEEP_DURATION)),
         }
     }
 }
