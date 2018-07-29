@@ -1,8 +1,9 @@
 extern crate libudev;
 extern crate notify_rust;
 
-use libudev::{Context, Device, Enumerator, Monitor, EventType};
+use libudev::{Context, Device, Enumerator, EventType, Monitor};
 use notify_rust::Notification;
+use std::process::Command;
 
 /// USB Vendor/Product as defined in QMK firmware
 const PRODUCT: &str = "3/feed/1307/111";
@@ -31,29 +32,42 @@ fn main() {
                     match event.event_type() {
                         EventType::Add => on_keyboard_plugged(),
                         EventType::Remove => on_keyboard_unplugged(),
-                        _ => {},
+                        _ => {}
                     }
                 }
             }
-            None => {},
+            None => {}
         }
     }
 }
 
 fn on_keyboard_plugged() {
+    Command::new("setxkbmap")
+        .arg("us")
+        .spawn()
+        .expect("Could not run setxkbmap");
     Notification::new()
         .summary("Auto xkbmap")
         .body("Keyboard set")
         .icon("keyboard")
-        .show().unwrap();
+        .show()
+        .unwrap();
 }
 
 fn on_keyboard_unplugged() {
+    Command::new("setxkbmap")
+        .arg("fr")
+        .arg("oss")
+        .arg("-option")
+        .arg("ctrl:nocaps")
+        .spawn()
+        .expect("Could not run setxkbmap");
     Notification::new()
         .summary("Auto xkbmap")
         .body("Keyboard unset")
         .icon("keyboard")
-        .show().unwrap();
+        .show()
+        .unwrap();
 }
 
 fn is_keyboard(device: &Device) -> bool {
