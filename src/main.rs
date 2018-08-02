@@ -49,12 +49,7 @@ fn on_keyboard_plugged() {
         .arg("us")
         .spawn()
         .expect("Could not run setxkbmap");
-    Notification::new()
-        .summary("Auto xkbmap")
-        .body("Keyboard set")
-        .icon("keyboard")
-        .show()
-        .unwrap();
+    notify("keyboard plugged");
 }
 
 fn on_keyboard_unplugged() {
@@ -65,12 +60,7 @@ fn on_keyboard_unplugged() {
         .arg("ctrl:nocaps")
         .spawn()
         .expect("Could not run setxkbmap");
-    Notification::new()
-        .summary("Auto xkbmap")
-        .body("Keyboard unset")
-        .icon("keyboard")
-        .show()
-        .unwrap();
+    notify("keyboard unplugged");
 }
 
 fn is_keyboard(device: &Device) -> bool {
@@ -81,4 +71,13 @@ fn is_keyboard(device: &Device) -> bool {
     }
 
     false
+}
+
+fn notify(message: &str) {
+    Notification::new()
+        .summary("Auto xkbmap")
+        .body(message)
+        .icon("keyboard")
+        .show()
+        .unwrap();
 }
