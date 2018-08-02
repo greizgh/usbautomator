@@ -1,0 +1,4 @@
+[devices.ergodox]
+product = "3/feed/1307/111"
+on_plugged = "setxkbmap us"
+on_unplugged = "setxkbmap fr oss -option ctrl:nocaps"
