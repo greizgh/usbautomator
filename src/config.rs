@@ -1,7 +1,7 @@
-use std::collections::HashMap;
-use std::io::prelude::*;
-use std::fs::File;
 use std;
+use std::collections::HashMap;
+use std::fs::File;
+use std::io::prelude::*;
 use toml;
 
 #[derive(Deserialize, Serialize)]
@@ -31,11 +31,14 @@ impl Config {
 impl Default for Config {
     fn default() -> Config {
         let mut devices = HashMap::new();
-        devices.insert("ergodox".to_owned(), WatchedDevice {
-            product: "3/feed/1307/111".to_owned(),
-            on_plugged: "setxkbmap us".to_owned(),
-            on_unplugged: "setxkbmap fr oss -option ctrl:nocaps".to_owned(),
-        });
+        devices.insert(
+            "ergodox".to_owned(),
+            WatchedDevice {
+                product: "3/feed/1307/111".to_owned(),
+                on_plugged: "setxkbmap us".to_owned(),
+                on_unplugged: "setxkbmap fr oss -option ctrl:nocaps".to_owned(),
+            },
+        );
         Config { devices }
     }
 }
