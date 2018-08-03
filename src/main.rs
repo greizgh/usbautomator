@@ -2,12 +2,15 @@ extern crate libudev;
 extern crate notify_rust;
 #[macro_use] extern crate serde_derive;
 extern crate toml;
+extern crate xdg;
 
 use libudev::{Context, Device, Enumerator, Event, EventType, Monitor};
 use notify_rust::Notification;
 use std::process::Command;
 use std::thread::sleep;
 use std::time::Duration;
+use std::io::prelude::*;
+use std::fs::File;
 
 mod config;
 
@@ -47,7 +50,7 @@ impl DeviceManager {
 }
 
 fn main() {
-    let config = config::Config::from_file("./res/config.toml").unwrap();
+    let config = get_config().unwrap();
     let manager = DeviceManager { config };
 
     let context = Context::new().unwrap();
@@ -96,4 +99,19 @@ fn notify(message: &str) {
         .icon("keyboard")
         .show()
         .unwrap();
+}
+
+/// Load configuration from file.
+/// Create configuration file from defaults if needed.
+fn get_config() -> Result<config::Config, std::io::Error> {
+    let xdg_dirs = xdg::BaseDirectories::with_prefix(env!("CARGO_PKG_NAME"))?;
+    let config_path = xdg_dirs.place_config_file("config.toml")?;
+
+    if !config_path.exists() {
+        let toml = toml::to_string(&config::Config::default()).unwrap();
+        let mut file = File::create(&config_path)?;
+        file.write_all(toml.as_bytes())?;
+    }
+
+    config::Config::from_file(config_path)
 }
