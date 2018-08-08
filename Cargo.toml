@@ -2,6 +2,8 @@
 name = "usbautomator"
 version = "0.1.0"
 authors = ["Greizgh <greizgh@ephax.org>"]
+readme = "README.md"
+license = "GPL-3.0+"
 
 [dependencies]
 libudev = "0.2.0"

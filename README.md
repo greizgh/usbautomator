@@ -23,3 +23,7 @@ You will need [rust](https://www.rust-lang.org) and [cargo](https://doc.rust-lan
 Then simply run:
 
     cargo build --release
+
+## License
+
+GPLv3
