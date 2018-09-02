@@ -55,10 +55,14 @@ fn execute(command: &str) {
 }
 
 fn notify(message: &str) {
-    Notification::new()
+    let notification = Notification::new()
         .summary("Auto xkbmap")
         .body(message)
         .icon("keyboard")
-        .show()
-        .unwrap();
+        .show();
+    if notification.is_ok() {
+        notification.unwrap();
+    } else {
+        eprintln!("Unable to notify: {}", message);
+    }
 }
