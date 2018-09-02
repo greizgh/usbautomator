@@ -24,6 +24,10 @@ Then simply run:
 
     cargo build --release
 
+## Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md)
+
 ## License
 
 GPLv3
