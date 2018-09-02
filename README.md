@@ -24,6 +24,10 @@ Then simply run:
 
     cargo build --release
 
+## Packages
+
+[Archlinux](https://aur.archlinux.org/packages/usbautomator)
+
 ## Changelog
 
 See [CHANGELOG.md](./CHANGELOG.md)
