@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased]
+## [0.2.0] - 2018-09-03
 ### Fixed
 - Crashing when notify service is missing
 - Do not crash when command fail
