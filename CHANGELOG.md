@@ -3,6 +3,7 @@
 ## [Unreleased]
 ### Fixed
 - Crashing when notify service is missing
+- Do not crash when command fail
 
 ## [0.1.0] - 2018-08-08
 ### Added

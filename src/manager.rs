@@ -48,10 +48,14 @@ fn is_product(product: &str, device: &Device) -> bool {
 
 fn execute(command: &str) {
     let cmd: Vec<_> = command.split(" ").collect();
-    Command::new(cmd[0])
+    let run = Command::new(cmd[0])
         .args(&cmd[1..])
-        .spawn()
-        .expect("Failed to run command");
+        .spawn();
+    if run.is_ok() {
+        run.unwrap();
+    } else {
+        eprintln!("Failed to run command: {}", command);
+    }
 }
 
 fn notify(message: &str) {
