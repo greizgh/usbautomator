@@ -2,6 +2,8 @@ extern crate libudev;
 extern crate notify_rust;
 #[macro_use]
 extern crate serde_derive;
+#[macro_use]
+extern crate structopt;
 extern crate toml;
 extern crate xdg;
 
@@ -10,26 +12,78 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::thread::sleep;
 use std::time::Duration;
+use structopt::StructOpt;
 
 mod config;
 mod manager;
 
 const SLEEP_DURATION: u64 = 1000;
 
+#[derive(Debug, StructOpt)]
+struct Opt {
+    /// List connected devices of type input or block
+    #[structopt(short = "l", long = "list")]
+    list: bool,
+    /// List properties of device identified by given path
+    #[structopt(long = "describe")]
+    device_path: Option<String>,
+}
+
 fn main() {
+    let opt = Opt::from_args();
+
     let config = get_config().unwrap();
     let manager = manager::DeviceManager { config };
 
     let context = Context::new().unwrap();
-    let mut enumerator = Enumerator::new(&context).unwrap();
+
+    if opt.list {
+        list_devices(&context);
+        return;
+    }
+    if opt.device_path.is_some() {
+        describe(&context, &opt.device_path.unwrap());
+        return;
+    }
+    listen(&manager, &context);
+}
+
+/// List input or block devices
+fn list_devices(context: &Context) {
+    let mut input_enumerator = Enumerator::new(context).unwrap();
+    input_enumerator.match_subsystem("input").unwrap();
+    for device in input_enumerator.scan_devices().unwrap() {
+        println!("Device {}\t\t{}", "input", device.sysname().to_string_lossy());
+    }
+
+    let mut block_enumerator = Enumerator::new(context).unwrap();
+    block_enumerator.match_subsystem("block").unwrap();
+    for device in block_enumerator.scan_devices().unwrap() {
+        println!("Device {}\t\t{}", "block", device.sysname().to_string_lossy());
+    }
+}
+
+fn describe(context: &Context, name: &str) {
+    let mut enumerator = Enumerator::new(context).unwrap();
+
+    enumerator.match_sysname(name).unwrap();
+    for device in enumerator.scan_devices().unwrap() {
+        for property in device.properties() {
+            println!("{}: {}", property.name().to_string_lossy(), property.value().to_string_lossy());
+        }
+    }
+}
+
+/// Listen for changes on plugged devices
+fn listen(manager: &manager::DeviceManager, context: &Context) {
+    let mut enumerator = Enumerator::new(context).unwrap();
 
     enumerator.match_subsystem("input").unwrap();
-
     for device in enumerator.scan_devices().unwrap() {
         manager.handle_device(&device);
     }
 
-    let mut monitor = Monitor::new(&context).unwrap();
+    let mut monitor = Monitor::new(context).unwrap();
     assert!(monitor.match_subsystem("input").is_ok());
     let mut socket = monitor.listen().unwrap();
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+### Added
+- Add option to list current devices
+- Add option to describe device properties
+
 ## [0.2.0] - 2018-09-03
 ### Fixed
 - Crashing when notify service is missing
