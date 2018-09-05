@@ -39,6 +39,9 @@ impl DeviceManager {
 
 /// Check if device match with given property set
 fn is_matching(properties: &HashMap<String, String>, device: &Device) -> bool {
+    if device.subsystem() != "input" || device.subsystem() != "block" {
+        return false;
+    }
     let mut matching_properties: usize = 0;
     for property in device.properties() {
         let name = property.name().to_os_string().into_string().expect("Could not convert property name");
