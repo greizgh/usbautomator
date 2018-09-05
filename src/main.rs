@@ -24,9 +24,9 @@ struct Opt {
     /// List connected devices of type input or block
     #[structopt(short = "l", long = "list")]
     list: bool,
-    /// List properties of device identified by given path
+    /// List properties of device identified by given name
     #[structopt(long = "describe")]
-    device_path: Option<String>,
+    device_name: Option<String>,
 }
 
 fn main() {
@@ -41,8 +41,8 @@ fn main() {
         list_devices(&context);
         return;
     }
-    if opt.device_path.is_some() {
-        describe(&context, &opt.device_path.unwrap());
+    if opt.device_name.is_some() {
+        describe(&context, &opt.device_name.unwrap());
         return;
     }
     listen(&manager, &context);
@@ -63,6 +63,7 @@ fn list_devices(context: &Context) {
     }
 }
 
+/// Describe device by listing its properties
 fn describe(context: &Context, name: &str) {
     let mut enumerator = Enumerator::new(context).unwrap();
 
@@ -83,8 +84,7 @@ fn listen(manager: &manager::DeviceManager, context: &Context) {
         manager.handle_device(&device);
     }
 
-    let mut monitor = Monitor::new(context).unwrap();
-    assert!(monitor.match_subsystem("input").is_ok());
+    let monitor = Monitor::new(context).unwrap();
     let mut socket = monitor.listen().unwrap();
 
     loop {

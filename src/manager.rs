@@ -2,6 +2,7 @@ use config;
 use libudev::{Device, Event, EventType};
 use notify_rust::Notification;
 use std::process::Command;
+use std::collections::HashMap;
 
 pub struct DeviceManager {
     pub config: config::Config,
@@ -10,7 +11,7 @@ pub struct DeviceManager {
 impl DeviceManager {
     pub fn handle_device(&self, device: &Device) {
         for (name, watched) in &self.config.devices {
-            if is_product(&watched.product, device) {
+            if is_matching(&watched.properties, device) {
                 notify(&format!("{} plugged", name));
                 execute(&watched.on_plugged);
             }
@@ -19,7 +20,7 @@ impl DeviceManager {
 
     pub fn handle_change(&self, event: &Event) {
         for (name, watched) in &self.config.devices {
-            if is_product(&watched.product, event.device()) {
+            if is_matching(&watched.properties, event.device()) {
                 match event.event_type() {
                     EventType::Add => {
                         notify(&format!("{} plugged", name));
@@ -36,14 +37,20 @@ impl DeviceManager {
     }
 }
 
-fn is_product(product: &str, device: &Device) -> bool {
+/// Check if device match with given property set
+fn is_matching(properties: &HashMap<String, String>, device: &Device) -> bool {
+    let mut matching_properties: usize = 0;
     for property in device.properties() {
-        if property.name() == "PRODUCT" && property.value() == product {
-            return true;
+        let name = property.name().to_os_string().into_string().expect("Could not convert property name");
+        let value = property.value().to_os_string().into_string().expect("Could not convert property value");
+
+        if properties.contains_key(&name) && properties.get(&name).unwrap() == &value {
+            matching_properties += 1;
         }
     }
 
-    false
+    // Prevent matching on empty property set
+    properties.len() > 0 && matching_properties == properties.len()
 }
 
 fn execute(command: &str) {
