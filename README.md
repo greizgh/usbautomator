@@ -11,9 +11,10 @@ Configuration follows this pattern:
 
 ```toml
 [devices.NAME]
-product = "USB PRODUCT ID"
 on_plugged = "COMMAND"
 on_unplugged = "COMMAND"
+[devices.NAME.properties]
+product = "USB PRODUCT ID"
 ```
 
 ## Building
