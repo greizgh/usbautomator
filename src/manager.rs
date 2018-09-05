@@ -50,11 +50,11 @@ fn is_matching(properties: &HashMap<String, String>, device: &Device) -> bool {
     }
 
     // Prevent matching on empty property set
-    properties.len() > 0 && matching_properties == properties.len()
+    !properties.is_empty() && matching_properties == properties.len()
 }
 
 fn execute(command: &str) {
-    let cmd: Vec<_> = command.split(" ").collect();
+    let cmd: Vec<_> = command.split(' ').collect();
     let run = Command::new(cmd[0])
         .args(&cmd[1..])
         .spawn();

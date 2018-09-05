@@ -53,13 +53,13 @@ fn list_devices(context: &Context) {
     let mut input_enumerator = Enumerator::new(context).unwrap();
     input_enumerator.match_subsystem("input").unwrap();
     for device in input_enumerator.scan_devices().unwrap() {
-        println!("Device {}\t\t{}", "input", device.sysname().to_string_lossy());
+        println!("Device input\t\t{}", device.sysname().to_string_lossy());
     }
 
     let mut block_enumerator = Enumerator::new(context).unwrap();
     block_enumerator.match_subsystem("block").unwrap();
     for device in block_enumerator.scan_devices().unwrap() {
-        println!("Device {}\t\t{}", "block", device.sysname().to_string_lossy());
+        println!("Device block\t\t{}", device.sysname().to_string_lossy());
     }
 }
 
