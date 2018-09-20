@@ -41,15 +41,15 @@ fn main() {
     let context = Context::new().unwrap();
 
     match opt {
-        Opt { list: true, watch, device_name } => {
+        Opt { list: true, .. } => {
             list_devices(&context);
             return;
         },
-        Opt { list, watch: true, device_name } => {
+        Opt { watch: true, .. } => {
             watch(&context);
             return;
         }
-        Opt { list, watch, device_name: Some(name) } => {
+        Opt { device_name: Some(name), .. } => {
             describe(&context, &name);
             return;
         },
