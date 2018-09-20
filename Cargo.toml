@@ -1,6 +1,6 @@
 [package]
 name = "usbautomator"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Greizgh <greizgh@ephax.org>"]
 readme = "README.md"
 license = "GPL-3.0+"

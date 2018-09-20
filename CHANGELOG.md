@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [0.3.0] - 2018-09-20
 ### Added
 - Add option to list input and block devices
 - Add option to describe device properties

@@ -330,7 +330,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "usbautomator"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "libudev 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "notify-rust 3.4.2 (registry+https://github.com/rust-lang/crates.io-index)",
