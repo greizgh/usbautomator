@@ -5,6 +5,8 @@
 - Add option to list input and block devices
 - Add option to describe device properties
 - Allow to match device based on property set
+### Changed
+- Updated sample config for ergodox
 ### Removed
 - Restriction on subsystem type
 

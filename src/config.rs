@@ -35,7 +35,11 @@ impl Config {
 impl Default for Config {
     fn default() -> Config {
         let mut properties = HashMap::new();
-        properties.insert("product".to_owned(), "3/feed/1307/111".to_owned());
+        // Ergodox sample values
+        properties.insert("ID_VENDOR_ID".to_owned(), "feed".to_owned());
+        properties.insert("ID_MODEL_ID".to_owned(), "1307".to_owned());
+        properties.insert("ID_INPUT_KEYBOARD".to_owned(), "1".to_owned());
+        properties.insert("KEY".to_owned(), "1000000000007 ff9f207ac14057ff febeffdfffefffff fffffffffffffffe".to_owned());
         let mut devices = HashMap::new();
         devices.insert(
             "ergodox".to_owned(),
