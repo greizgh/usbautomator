@@ -79,7 +79,6 @@ fn describe(context: &Context, name: &str) {
 fn listen(manager: &manager::DeviceManager, context: &Context) {
     let mut enumerator = Enumerator::new(context).unwrap();
 
-    enumerator.match_subsystem("input").unwrap();
     for device in enumerator.scan_devices().unwrap() {
         manager.handle_device(&device);
     }
