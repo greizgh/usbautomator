@@ -24,6 +24,9 @@ struct Opt {
     /// List connected devices of type input or block
     #[structopt(short = "l", long = "list")]
     list: bool,
+    /// Watch for changes and display changed device properties
+    #[structopt(short = "w", long = "watch")]
+    watch: bool,
     /// List properties of device identified by given name
     #[structopt(long = "describe")]
     device_name: Option<String>,
@@ -37,15 +40,21 @@ fn main() {
 
     let context = Context::new().unwrap();
 
-    if opt.list {
-        list_devices(&context);
-        return;
+    match opt {
+        Opt { list: true, watch, device_name } => {
+            list_devices(&context);
+            return;
+        },
+        Opt { list, watch: true, device_name } => {
+            watch(&context);
+            return;
+        }
+        Opt { list, watch, device_name: Some(name) } => {
+            describe(&context, &name);
+            return;
+        },
+        _ => listen(&manager, &context),
     }
-    if opt.device_name.is_some() {
-        describe(&context, &opt.device_name.unwrap());
-        return;
-    }
-    listen(&manager, &context);
 }
 
 /// List input or block devices
@@ -69,6 +78,7 @@ fn describe(context: &Context, name: &str) {
 
     enumerator.match_sysname(name).unwrap();
     for device in enumerator.scan_devices().unwrap() {
+        println!("******************************************************************************");
         for property in device.properties() {
             println!("{}: {}", property.name().to_string_lossy(), property.value().to_string_lossy());
         }
@@ -89,6 +99,19 @@ fn listen(manager: &manager::DeviceManager, context: &Context) {
     loop {
         match socket.receive_event() {
             Some(event) => manager.handle_change(&event),
+            None => sleep(Duration::from_millis(SLEEP_DURATION)),
+        }
+    }
+}
+
+/// Watch for changes and display the device properties
+fn watch(context: &Context) {
+    let monitor = Monitor::new(context).unwrap();
+    let mut socket = monitor.listen().unwrap();
+
+    loop {
+        match socket.receive_event() {
+            Some(event) => describe(context, &event.device().sysname().to_string_lossy()),
             None => sleep(Duration::from_millis(SLEEP_DURATION)),
         }
     }

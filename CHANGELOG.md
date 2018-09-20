@@ -5,6 +5,7 @@
 - Add option to list input and block devices
 - Add option to describe device properties
 - Allow to match device based on property set
+- Command to watch for changes and display device properties
 ### Changed
 - Updated sample config for ergodox
 ### Removed
