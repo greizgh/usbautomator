@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Changed
+- use cargo package name in notification instead of hardcoded value
+
 ## [0.3.0] - 2018-09-20
 ### Added
 - Add option to list input and block devices

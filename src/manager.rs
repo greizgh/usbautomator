@@ -67,7 +67,7 @@ fn execute(command: &str) {
 
 fn notify(message: &str) {
     let notification = Notification::new()
-        .summary("Auto xkbmap")
+        .summary(env!("CARGO_PKG_NAME"))
         .body(message)
         .icon("keyboard")
         .show();
