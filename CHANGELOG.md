@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## [0.3.1] - 2018-09-24
 ### Fixed
 - Crashing when serializing the default config file
 ### Changed
