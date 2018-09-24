@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased
+### Fixed
+- Crashing when serializing the default config file
 ### Changed
 - use cargo package name in notification instead of hardcoded value
 

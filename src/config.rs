@@ -11,9 +11,9 @@ pub struct Config {
 
 #[derive(Deserialize, Serialize)]
 pub struct WatchedDevice {
-    pub properties: HashMap<String, String>,
     pub on_plugged: String,
     pub on_unplugged: String,
+    pub properties: HashMap<String, String>,
 }
 
 impl Config {
