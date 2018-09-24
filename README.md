@@ -1,5 +1,7 @@
 # USB automator
 
+[![Build Status](https://travis-ci.org/greizgh/usbautomator.svg?branch=master)](https://travis-ci.org/greizgh/usbautomator)
+
 This little utility can run commands when a device is plugged or unplugged.
 
 The main use case is to change keyboard layout according to device presence.
