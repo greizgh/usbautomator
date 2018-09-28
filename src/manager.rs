@@ -13,7 +13,9 @@ impl DeviceManager {
         for (name, watched) in &self.config.devices {
             if is_matching(&watched.properties, device) {
                 notify(&format!("{} plugged", name));
-                execute(&watched.on_plugged);
+                if let Some(cmd) = &watched.on_plugged {
+                    execute(&cmd);
+                }
             }
         }
     }
@@ -24,11 +26,15 @@ impl DeviceManager {
                 match event.event_type() {
                     EventType::Add => {
                         notify(&format!("{} plugged", name));
-                        execute(&watched.on_plugged);
+                        if let Some(cmd) = &watched.on_plugged {
+                            execute(&cmd);
+                        }
                     }
                     EventType::Remove => {
                         notify(&format!("{} unplugged", name));
-                        execute(&watched.on_unplugged);
+                        if let Some(cmd) = &watched.on_unplugged {
+                            execute(&cmd);
+                        }
                     }
                     _ => break,
                 }

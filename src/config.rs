@@ -11,8 +11,8 @@ pub struct Config {
 
 #[derive(Deserialize, Serialize)]
 pub struct WatchedDevice {
-    pub on_plugged: String,
-    pub on_unplugged: String,
+    pub on_plugged: Option<String>,
+    pub on_unplugged: Option<String>,
     pub properties: HashMap<String, String>,
 }
 
@@ -21,13 +21,16 @@ impl Config {
         let mut file = File::open(path)?;
         let mut buffer = String::new();
         file.read_to_string(&mut buffer)?;
+        Ok(parse_config(&buffer))
+    }
+}
 
-        match toml::from_str(&buffer) {
-            Ok(config) => Ok(config),
-            Err(e) => {
-                eprintln!("{}", e);
-                std::process::exit(1);
-            }
+fn parse_config(config: &str) -> Config {
+    match toml::from_str(config) {
+        Ok(config) => config,
+        Err(e) => {
+            eprintln!("{}", e);
+            std::process::exit(1);
         }
     }
 }
@@ -45,10 +48,24 @@ impl Default for Config {
             "ergodox".to_owned(),
             WatchedDevice {
                 properties,
-                on_plugged: "setxkbmap us".to_owned(),
-                on_unplugged: "setxkbmap fr oss -option ctrl:nocaps".to_owned(),
+                on_plugged: Some("setxkbmap us".to_owned()),
+                on_unplugged: Some("setxkbmap fr oss -option ctrl:nocaps".to_owned()),
             },
         );
         Config { devices }
     }
+}
+
+#[test]
+fn test_optional_cmd() {
+    let config = "
+    [devices.test]
+    on_plugged = \"ok\"
+    [devices.test.properties]
+    KEY = \"12345\"
+    ";
+    let parsed = parse_config(config);
+
+    assert!(parsed.devices.contains_key("test"));
+    assert!(!parsed.devices["test"].properties.contains_key("on_unplugged"));
 }

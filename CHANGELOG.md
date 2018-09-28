@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+### Changed
+- Make on_plugged/on_unplugged commands optional
+
 ## [0.3.1] - 2018-09-24
 ### Fixed
 - Crashing when serializing the default config file
