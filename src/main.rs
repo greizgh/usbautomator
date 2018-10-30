@@ -1,12 +1,3 @@
-extern crate libudev;
-extern crate notify_rust;
-#[macro_use]
-extern crate serde_derive;
-#[macro_use]
-extern crate structopt;
-extern crate toml;
-extern crate xdg;
-
 use libudev::{Context, Enumerator, Monitor};
 use std::fs::File;
 use std::io::prelude::*;

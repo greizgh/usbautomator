@@ -1,4 +1,4 @@
-use config;
+use crate::config;
 use libudev::{Device, Event, EventType};
 use notify_rust::Notification;
 use std::process::Command;
