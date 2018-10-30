@@ -4,6 +4,7 @@ version = "0.3.1"
 authors = ["Greizgh <greizgh@ephax.org>"]
 readme = "README.md"
 license = "GPL-3.0+"
+edition = "2018"
 
 [dependencies]
 libudev = "0.2.0"

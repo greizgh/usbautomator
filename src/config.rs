@@ -2,6 +2,7 @@ use std;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::prelude::*;
+use serde_derive::{Deserialize, Serialize};
 use toml;
 
 #[derive(Deserialize, Serialize)]
