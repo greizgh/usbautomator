@@ -3,6 +3,7 @@
 ## Unreleased
 ### Changed
 - Make on_plugged/on_unplugged commands optional
+- Switch to Rust 2018 edition
 
 ## [0.3.1] - 2018-09-24
 ### Fixed

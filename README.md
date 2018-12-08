@@ -78,7 +78,7 @@ Your keyboard layout should now change according to the device presence.
 
 ## Building
 
-You will need [rust](https://www.rust-lang.org) and [cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html).
+You will need [rust](https://www.rust-lang.org) (v1.31) and [cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html).
 
 Then simply run:
 
