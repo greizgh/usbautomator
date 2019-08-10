@@ -4,6 +4,7 @@
 ### Changed
 - Make on_plugged/on_unplugged commands optional
 - Switch to Rust 2018 edition
+- Add nix shell config
 
 ## [0.3.1] - 2018-09-24
 ### Fixed
