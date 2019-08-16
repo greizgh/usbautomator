@@ -34,16 +34,16 @@ fn main() {
     match opt {
         Opt { list: true, .. } => {
             list_devices(&context);
-            return;
-        },
+        }
         Opt { watch: true, .. } => {
             watch(&context);
-            return;
         }
-        Opt { device_name: Some(name), .. } => {
+        Opt {
+            device_name: Some(name),
+            ..
+        } => {
             describe(&context, &name);
-            return;
-        },
+        }
         _ => listen(&manager, &context),
     }
 }
@@ -71,7 +71,11 @@ fn describe(context: &Context, name: &str) {
     for device in enumerator.scan_devices().unwrap() {
         println!("******************************************************************************");
         for property in device.properties() {
-            println!("{}: {}", property.name().to_string_lossy(), property.value().to_string_lossy());
+            println!(
+                "{}: {}",
+                property.name().to_string_lossy(),
+                property.value().to_string_lossy()
+            );
         }
     }
 }
